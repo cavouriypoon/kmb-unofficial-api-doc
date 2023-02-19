@@ -45,233 +45,232 @@ paths:
           $ref: "#/components/responses/GetRouteResponse"
         
 components:
-  parameters:
-    route:
-      in: path
-      name: route
-      description: The route number of the respective bus company that specified above. Case sensitive.
-      required: true
-      allowEmptyValue: false
-      schema:
-        $ref: "#/components/schemas/routeNumber"
-    direction:
-      in: path
-      name: direction
-      description: The direction of the route number that specified above. Case sensitive.
-      required: true
-      allowEmptyValue: false
-      schema:
-        $ref: "#/components/schemas/boundFull"
-    serviceType:
-      in: path
-      name: service_type
-      description: The service type of the bus route.
-      required: true
-      allowEmptyValue: false
-      schema:
-        $ref: "#/components/schemas/serviceType"
   examples:
     GetRouteResponseExample:
       summary: Get route successfully
       value:
+        data:
+          bound: I
+          dest_en: TSUEN WAN (NINA TOWER)
+          dest_sc: 荃湾(如心广场)
+          dest_tc: 荃灣(如心廣場)
+          orig_en: TUEN MUN (TAI HING ESTATE)
+          orig_sc: 屯门(大兴邨)
+          orig_tc: 屯門(大興邨)
+          route: 66M
+        generated_timestamp: '2023-02-20T01:47:11+08:00'
         type: Route
         version: '1.0'
-        generated_timestamp: '2023-02-20T01:47:11+08:00'
-        data:
-          route: 66M
-          bound: I
-          orig_en: TUEN MUN (TAI HING ESTATE)
-          orig_tc: 屯門(大興邨)
-          orig_sc: 屯门(大兴邨)
-          dest_en: TSUEN WAN (NINA TOWER)
-          dest_tc: 荃灣(如心廣場)
-          dest_sc: 荃湾(如心广场)
     NoRouteResponseExample:
       summary: No route is returned from API
       value:
+        data: {}
+        generated_timestamp: '2023-02-20T01:47:11+08:00'
         type: Route
         version: '1.0'
-        generated_timestamp: '2023-02-20T01:47:11+08:00'
-        data: {}
     RouteListExample:
       summary: Example of Route List
       value:
-        - route: '1'
-          bound: O
-          service_type: '1'
+        - bound: O
+          dest_en: STAR FERRY
+          dest_sc: 尖沙咀码头
+          dest_tc: 尖沙咀碼頭
           orig_en: CHUK YUEN ESTATE
-          orig_tc: 竹園邨
           orig_sc: 竹园邨
-          dest_en: STAR FERRY
-          dest_tc: 尖沙咀碼頭
-          dest_sc: 尖沙咀码头
-        - route: '1'
-          bound: I
+          orig_tc: 竹園邨
+          route: '1'
           service_type: '1'
-          orig_en: STAR FERRY
-          orig_tc: 尖沙咀碼頭
-          orig_sc: 尖沙咀码头
+        - bound: I
           dest_en: CHUK YUEN ESTATE
-          dest_tc: 竹園邨
           dest_sc: 竹园邨
-        - route: 1A
-          bound: O
-          service_type: '1'
-          orig_en: SAU MAU PING (CENTRAL)
-          orig_tc: 中秀茂坪
-          orig_sc: 中秀茂坪
-          dest_en: STAR FERRY
-          dest_tc: 尖沙咀碼頭
-          dest_sc: 尖沙咀码头
-        - route: 1A
-          bound: I
-          service_type: '1'
+          dest_tc: 竹園邨
           orig_en: STAR FERRY
-          orig_tc: 尖沙咀碼頭
           orig_sc: 尖沙咀码头
+          orig_tc: 尖沙咀碼頭
+          route: '1'
+          service_type: '1'
+        - bound: O
+          dest_en: STAR FERRY
+          dest_sc: 尖沙咀码头
+          dest_tc: 尖沙咀碼頭
+          orig_en: SAU MAU PING (CENTRAL)
+          orig_sc: 中秀茂坪
+          orig_tc: 中秀茂坪
+          route: 1A
+          service_type: '1'
+        - bound: I
           dest_en: SAU MAU PING (CENTRAL)
-          dest_tc: 中秀茂坪
           dest_sc: 中秀茂坪
-
+          dest_tc: 中秀茂坪
+          orig_en: STAR FERRY
+          orig_sc: 尖沙咀码头
+          orig_tc: 尖沙咀碼頭
+          route: 1A
+          service_type: '1'
+  parameters:
+    direction:
+      allowEmptyValue: false
+      description: The direction of the route number that specified above. Case sensitive.
+      in: path
+      name: direction
+      required: true
+      schema:
+        $ref: '#/components/schemas/boundFull'
+    route:
+      allowEmptyValue: false
+      description: The route number of the respective bus company that specified above. Case sensitive.
+      in: path
+      name: route
+      required: true
+      schema:
+        $ref: '#/components/schemas/routeNumber'
+    serviceType:
+      allowEmptyValue: false
+      description: The service type of the bus route.
+      in: path
+      name: service_type
+      required: true
+      schema:
+        $ref: '#/components/schemas/serviceType'
   responses:
     GetRouteListResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetRouteListResponse'
       description: Get all bus routes of KMB suvvessfully
-      content:
-        "application/json":
-          schema:
-            $ref: "#/components/schemas/GetRouteListResponse"
     GetRouteResponse:
-      description: Get route information
       content:
-        "application/json":
-          schema:
-            $ref: "#/components/schemas/GetRouteResponse"
+        application/json:
           examples:
-            "Get Route from API successfully":
-              $ref: "#/components/examples/GetRouteResponseExample"
-            "No route is return from API":
-              $ref: "#/components/examples/NoRouteResponseExample"
+            Get Route from API successfully:
+              $ref: '#/components/examples/GetRouteResponseExample'
+            No route is return from API:
+              $ref: '#/components/examples/NoRouteResponseExample'
+          schema:
+            $ref: '#/components/schemas/GetRouteResponse'
+      description: Get route information
   schemas:
+    BaseResponse:
+      description: All success responses are extended from this class
+      properties:
+        generated_timestamp:
+          $ref: '#/components/schemas/timestamp'
+        type:
+          $ref: '#/components/schemas/apiType'
+        version:
+          $ref: '#/components/schemas/jsonVersion'
+      type: object
+    GetRouteListResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+      properties:
+        data:
+          example:
+            $ref: '#/components/examples/RouteListExample'
+          items:
+            $ref: '#/components/schemas/Route'
+          type: array
+        type:
+          default: RouteList
+      type: object
+    GetRouteResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+      properties:
+        data:
+          $ref: '#/components/schemas/Route'
+        type:
+          default: Route
+      type: object
+    Route:
+      description: Route Object
+      properties:
+        bound:
+          $ref: '#/components/schemas/boundShort'
+        dest_en:
+          $ref: '#/components/schemas/destEn'
+        dest_sc:
+          $ref: '#/components/schemas/destSc'
+        dest_tc:
+          $ref: '#/components/schemas/destTc'
+        orig_en:
+          $ref: '#/components/schemas/originEn'
+        orig_sc:
+          $ref: '#/components/schemas/originSc'
+        orig_tc:
+          $ref: '#/components/schemas/originTc'
+        route:
+          $ref: '#/components/schemas/routeNumber'
+      type: object
     apiType:
-      type: string
-      readOnly: true
       description: The corresponding API that returns the data.
       enum:
         - Route
         - RouteList
-    jsonVersion:
-      type: string
       readOnly: true
-      description: The version number of the JSON returned. The version number in major and minor versioning format.
-      example: "1.0"
-    timestamp:
       type: string
-      readOnly: true
-      example: "2023-02-20T01:47:11+08:00"
-      format: "YYYY-MM-DDTThh:mm:ss±hh:mm"
-      description: |
-        <p>The timestamp of the initial generated time of the response before it is cached.</p>
-        <p>Date time with the time zone in <a target="_blank" href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format.</p>
-    Route:
-      description: Route Object
-      type: object
-      properties:
-        route:
-          $ref: "#/components/schemas/routeNumber"
-        bound:
-          $ref: "#/components/schemas/boundShort"
-        orig_en:
-          $ref: "#/components/schemas/originEn"
-        orig_tc:
-          $ref: "#/components/schemas/originTc"
-        orig_sc:
-          $ref: "#/components/schemas/originSc"
-        dest_en:
-          $ref: "#/components/schemas/destEn"
-        dest_tc:
-          $ref: "#/components/schemas/destTc"
-        dest_sc:
-          $ref: "#/components/schemas/destSc"
-    routeNumber:
-      type: string
-      description: The bus route number
-      readOnly: false
-      example: 66M
     boundFull:
-      type: string
       description: |
         The direction of the route number that specified above. Case sensitive.
         The value of circular line is outbound
       enum:
         - outbound
         - inbound
-    boundShort:
       type: string
+    boundShort:
       description: |
         The direction of the bus route.
         * I - inbound
         * O - outbound
-      readOnly: false
       enum:
-      - I
-      - O
-    serviceType:
+        - I
+        - O
+      readOnly: false
       type: string
-      description: The service type of the bus route.
-      example: 1
-    originEn:
-      type: string
-      description: The origin of a bus route in English.
-      example: TUEN MUN (TAI HING ESTATE)
-    originTc:
-      type: string
-      description: The origin of a bus route in Traditional Chinese.
-      example: 屯門(大興邨)
-    originSc:
-      type: string
-      description: The origin of a bus route in Simplified Chinese.
-      example: 屯门(大兴邨)
     destEn:
-      type: string
       description: The destination of a bus route in English.
       example: TSUEN WAN (NINA TOWER)
-    destTc:
       type: string
-      description: The destination of a bus route in Traditional Chinese.
-      example: 荃灣(如心廣場)
     destSc:
-      type: string
       description: The destination of a bus route in Simplified Chinese.
       example: 荃湾(如心广场)
-    BaseResponse:
-      description: All success responses are extended from this class
-      type: object
-      properties:
-        type:
-          $ref: "#/components/schemas/apiType"
-        version:  
-          $ref: "#/components/schemas/jsonVersion"
-        generated_timestamp:
-          $ref: "#/components/schemas/timestamp"
-    GetRouteResponse:
-      type: object
-      allOf:
-        - $ref: "#/components/schemas/BaseResponse"
-      properties:
-        type:
-          default: Route
-        data:
-          $ref: "#/components/schemas/Route"
-    GetRouteListResponse:
-      type: object
-      allOf:
-        - $ref: "#/components/schemas/BaseResponse"
-      properties:
-        type:
-          default: RouteList
-        data:
-          type: array
-          items:
-            $ref: "#/components/schemas/Route"
-          example:
-            $ref: "#/components/examples/RouteListExample"
+      type: string
+    destTc:
+      description: The destination of a bus route in Traditional Chinese.
+      example: 荃灣(如心廣場)
+      type: string
+    jsonVersion:
+      description: The version number of the JSON returned. The version number in major and minor versioning format.
+      example: '1.0'
+      readOnly: true
+      type: string
+    originEn:
+      description: The origin of a bus route in English.
+      example: TUEN MUN (TAI HING ESTATE)
+      type: string
+    originSc:
+      description: The origin of a bus route in Simplified Chinese.
+      example: 屯门(大兴邨)
+      type: string
+    originTc:
+      description: The origin of a bus route in Traditional Chinese.
+      example: 屯門(大興邨)
+      type: string
+    routeNumber:
+      description: The bus route number
+      example: 66M
+      readOnly: false
+      type: string
+    serviceType:
+      description: The service type of the bus route.
+      example: 1
+      type: string
+    timestamp:
+      description: |
+        <p>The timestamp of the initial generated time of the response before it is cached.</p>
+        <p>Date time with the time zone in <a target="_blank" href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format.</p>
+      example: '2023-02-20T01:47:11+08:00'
+      format: YYYY-MM-DDTThh:mm:ss±hh:mm
+      readOnly: true
+      type: string
