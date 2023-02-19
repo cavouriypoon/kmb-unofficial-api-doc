@@ -5,7 +5,7 @@ info:
   title: Real time Arrival Data of Kowloon Motor Bus and Long Win Bus Services Limited
   version: 1.0.0
   description: |
-    <p><strong>This documentation is not produced by Kowloon Motor Bus Company (1933) Limited (KMB) and Long Win Bus Company Limited (LWB) or The Transport Department. It is produced for discussion of writing Open API Specification only.</strong></p>
+    <p><strong>This documentation is NOT produced by Kowloon Motor Bus Company (1933) Limited (KMB) and Long Win Bus Company Limited (LWB) or The Transport Department. It is produced for discussion of writing Open API Specification only.</strong></p>
     <p>The API provides static information of Kowloon Motor Bus (KMB) and Long Win Bus (LWB) such as bus routes, bus stops and their locations and also estimated bus arrival time (ETA) of bus stops on the specific route.</p>
   contact:
     name: TD General Enquiry Hotline
@@ -30,6 +30,9 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/GetRouteListResponse"
+        "422":
+          $ref: "#/components/responses/422"
+  
   "/v1/transport/kmb/route/{route}/{direction}/{service_type}":
     get:
       summary: Bus Route API
@@ -43,7 +46,9 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/GetRouteResponse"
-        
+        "422":
+          $ref: "#/components/responses/422"
+               
 components:
   examples:
     GetRouteResponseExample:
@@ -133,6 +138,12 @@ components:
       schema:
         $ref: '#/components/schemas/serviceType'
   responses:
+    '422':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InvalidRequestResponse'
+      description: Invalid Request
     GetRouteListResponse:
       content:
         application/json:
@@ -182,6 +193,13 @@ components:
           $ref: '#/components/schemas/Route'
         type:
           default: Route
+      type: object
+    InvalidRequestResponse:
+      properties:
+        code:
+          $ref: '#/components/schemas/httpCode'
+        message:
+          $ref: '#/components/schemas/errorMessage'
       type: object
     Route:
       description: Route Object
@@ -240,6 +258,14 @@ components:
       description: The destination of a bus route in Traditional Chinese.
       example: 荃灣(如心廣場)
       type: string
+    errorMessage:
+      description: Error message
+      example: Invalid/Missing parameter(s)
+      type: string
+    httpCode:
+      description: HTTP Code
+      example: 422
+      type: integer
     jsonVersion:
       description: The version number of the JSON returned. The version number in major and minor versioning format.
       example: '1.0'
